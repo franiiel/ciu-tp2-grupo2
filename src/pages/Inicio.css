@@ -1,0 +1,24 @@
+.inicio-container {
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  border-radius: 12px;
+}
+
+.inicio-titulo {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #198754;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.inicio-container,
+.inicio-titulo {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
