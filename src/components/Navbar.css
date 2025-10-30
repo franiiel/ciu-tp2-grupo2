@@ -1,0 +1,77 @@
+/* ====== Estilo base ====== */
+.custom-navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+/* ====== Marca ====== */
+.brand-text {
+  font-weight: 700;
+  font-size: 1.4rem;
+  background: linear-gradient(90deg, #198754, #0d6efd);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.brand-text:hover {
+  transform: scale(1.05);
+}
+
+.brand-text span {
+  font-weight: 600;
+}
+
+/* ====== Links ====== */
+.nav-links .nav-link {
+  position: relative;
+  font-weight: 500;
+  color: #0d6efd !important;
+  margin-left: 1.5rem;
+  transition: color 0.3s ease;
+  padding-bottom: 2px;
+}
+
+.nav-links .nav-link:hover {
+  color: #198754 !important;
+}
+
+/* Línea de color animada debajo del link */
+.nav-links .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #198754, #0d6efd);
+  transition: width 0.3s ease;
+}
+
+.nav-links .nav-link:hover::after {
+  width: 100%;
+}
+
+/* ====== Link activo ====== */
+.nav-links .nav-link.active {
+  color: #198754 !important;
+}
+
+.nav-links .nav-link.active::after {
+  width: 100%;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 992px) {
+  .custom-navbar {
+    text-align: center;
+  }
+
+  .nav-links .nav-link {
+    margin: 0.5rem 0;
+  }
+}

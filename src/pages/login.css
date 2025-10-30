@@ -1,0 +1,44 @@
+/* === LOGIN CARD === */
+.login-card {
+  width: 24rem;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* === CAMPOS === */
+.login-card .form-control {
+  border-radius: 0.5rem;
+  border: 1px solid #ced4da;
+}
+
+.login-card .form-control:focus {
+  border-color: #198754;
+  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+}
+
+/* === BOTÓN === */
+.login-card button {
+  border-radius: 0.5rem;
+  font-weight: 600;
+  padding: 0.6rem;
+}
+
+/* === ALERTAS === */
+.alert {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 576px) {
+  .login-card {
+    width: 90%;
+  }
+}
