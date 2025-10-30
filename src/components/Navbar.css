@@ -1,4 +1,4 @@
-/* ====== Estilo base ====== */
+
 .custom-navbar {
   background-color: #ffffff;
   border-bottom: 1px solid #dee2e6;
@@ -7,7 +7,6 @@
   z-index: 10;
 }
 
-/* ====== Marca ====== */
 .brand-text {
   font-weight: 700;
   font-size: 1.4rem;
@@ -26,7 +25,6 @@
   font-weight: 600;
 }
 
-/* ====== Links ====== */
 .nav-links .nav-link {
   position: relative;
   font-weight: 500;
@@ -40,7 +38,6 @@
   color: #198754 !important;
 }
 
-/* Línea de color animada debajo del link */
 .nav-links .nav-link::after {
   content: "";
   position: absolute;
@@ -56,7 +53,6 @@
   width: 100%;
 }
 
-/* ====== Link activo ====== */
 .nav-links .nav-link.active {
   color: #198754 !important;
 }
@@ -65,7 +61,6 @@
   width: 100%;
 }
 
-/* ====== Responsive ====== */
 @media (max-width: 992px) {
   .custom-navbar {
     text-align: center;

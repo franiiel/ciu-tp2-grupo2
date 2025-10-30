@@ -1,23 +1,31 @@
-import { Container, Card, Form, Button } from 'react-bootstrap'
-import './login.css'
-import { Link } from 'react-router-dom'
+import { Container, Card, Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "./login.css";
 
-export default function Login() {
-
+export default function Register() {
   return (
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
       <Card className="p-4 shadow-lg login-card">
         <Card.Body>
           <Card.Title className="text-center mb-4 fs-4 fw-bold text-success">
-            Iniciar Sesión
+            Crear Cuenta
           </Card.Title>
 
-          <Form >
+          <Form>
             <Form.Group className="mb-3" controlId="formNickName">
               <Form.Label>Usuario</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Ingresa tu usuario"
+                placeholder="Elige tu nombre de usuario"
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="tu@email.com"
                 required
               />
             </Form.Group>
@@ -36,19 +44,18 @@ export default function Login() {
               type="submit"
               className="w-100 mt-2"
             >
-              Iniciar Sesión
+              Registrarse
             </Button>
           </Form>
 
           <div className="text-center mt-3">
-            <span>¿No tenés cuenta? </span>
-            <Link to="/registrarse" className="text-success fw-semibold text-decoration-none">
-              Registrate acá
+            <span>¿Ya tenés cuenta? </span>
+            <Link to="/login" className="text-success fw-semibold text-decoration-none">
+              Iniciá sesión
             </Link>
           </div>
-          
         </Card.Body>
       </Card>
     </Container>
-  )
+  );
 }

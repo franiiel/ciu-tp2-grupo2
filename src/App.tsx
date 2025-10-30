@@ -5,6 +5,7 @@ import NavigationBar from "./components/Navbar"
 import CrearPost from "./pages/CrearPost"
 import Footer from "./components/Footer"
 import Login from "./pages/Login"
+import Registrarse from "./pages/Registrarse"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/crearPost" element={<CrearPost />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/registrarse" element={<Registrarse />} />
       </Routes>
       <Footer />
     </>
