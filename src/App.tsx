@@ -14,10 +14,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/usuario/" element={<Usuario />} />
-        <Route path="*" element={<Navigate to="/" />} />
         <Route path="/crearPost" element={<CrearPost />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registrarse" element={<Registrarse />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />
     </>
