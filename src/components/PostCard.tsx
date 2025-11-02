@@ -1,23 +1,23 @@
-import { Card, Button, Badge } from "react-bootstrap";
+// src/components/PostCard.tsx
+import { Card, Badge } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./postCard.css";
 
-
-interface PostCardProps {
+type PostCardProps = {
   id: number;
   description: string;
   images?: string[];
   tags?: { id: number; name: string }[];
   commentCount?: number;
-}
+};
 
 export default function PostCard({
-  // id, para dirigirse a la página del post 
+  id,
   description,
   images = [],
   tags = [],
   commentCount = 0,
 }: PostCardProps) {
-
   return (
     <Card className="post-card shadow-sm mb-4">
       {/* Imagen principal si existe */}
@@ -32,9 +32,7 @@ export default function PostCard({
 
       <Card.Body>
         {/* Descripción */}
-        <Card.Text className="post-description">
-          {description}
-        </Card.Text>
+        <Card.Text className="post-description">{description}</Card.Text>
 
         {/* Etiquetas */}
         <div className="mb-3">
@@ -45,19 +43,16 @@ export default function PostCard({
           ))}
         </div>
 
-        {/* Comentarios */}
+        {/* Comentarios y botón */}
         <div className="d-flex justify-content-between align-items-center">
           <small className="text-muted">
             💬 {commentCount} comentario{commentCount !== 1 && "s"}
           </small>
 
-         {/* Botón Ver más */} 
-          <Button
-            variant="outline-success"
-            size="sm"
-          >
+          {/* Botón Ver más */}
+          <Link to={`/post/${id}`} className="btn btn-outline-success btn-sm">
             Ver más →
-          </Button>
+          </Link>
         </div>
       </Card.Body>
     </Card>
