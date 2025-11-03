@@ -1,23 +1,32 @@
 // src/components/GetPost.tsx
-export type Publicacion = {
-  idPost: number;
-  description: string;
-  Images: { imageUrl: string }[];
-  Tags: { name: string }[];
-  User: { idUser: number; nickName: string };
-  Comments?: { idComment: number }[];
-  createdAt?: string;
-};
+import { type Publicacion } from "./types";
+
+const API_URL = "http://localhost:3001";
 
 // Obtener todas las publicaciones del backend
 export async function getPublicaciones(): Promise<Publicacion[]> {
   try {
-    const res = await fetch("http://localhost:3050/posts");
+    const res = await fetch(`${API_URL}/posts`);
     if (!res.ok) throw new Error("Error al obtener publicaciones");
     const data = await res.json();
     return data;
   } catch (error) {
     console.error("Error en getPublicaciones:", error);
     throw error;
+  }
+}
+
+// Obtener publicaciones por id
+export async function getPublicacionesById(userId: number | null): Promise<Publicacion[] | null> {
+  if (userId == null) return null;
+
+  try {
+    const res = await fetch(`${API_URL}/posts?userId=${userId}`);
+    if (!res.ok) throw new Error("Error al obtener las publicaciones");
+
+    const data: Publicacion[] = await res.json();
+    return data;
+  } catch {
+    throw new Error("Error al obtener las publicaciones");
   }
 }

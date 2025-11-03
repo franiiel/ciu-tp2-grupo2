@@ -38,7 +38,7 @@ export default function Registrarse() {
 
     const nuevoUsuario: Usuario = { nickName, firstName, lastName, email, password };
 
-    fetch("http://localhost:3000/users", {
+    fetch("http://localhost:3001/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nuevoUsuario),
@@ -52,6 +52,7 @@ export default function Registrarse() {
         setSuccess("Usuario registrado correctamente. Redirigiendo al login...");
         setTimeout(() => navigate("/login"), 1500);
       })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .catch((e: any) => setError(e.message));
   };
 

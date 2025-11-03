@@ -10,6 +10,7 @@ export default function NuevaPublicacion() {
   // Estados locales
   const [description, setDescription] = useState("");
   const [imageUrls, setImageUrls] = useState<string[]>([""]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [idUser, setIdUser] = useState<number>(1); //Provisorio (hasta tener login)
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -55,7 +56,8 @@ export default function NuevaPublicacion() {
       });
 
       if (!res.ok) throw new Error("Error al crear publicación");
-      const data = await res.json();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const data:JSON = await res.json();
 
       setMessage("Publicación creada con éxito!");
       setTimeout(() => navigate("/usuario"), 1500); // Redirige al perfil o inicio

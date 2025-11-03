@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner, Alert } from "react-bootstrap";
 import PostCard from "../components/PostCard";
 import { getPublicaciones } from "../components/GetPost";
-import type { Publicacion } from "../components/GetPost";
+import type { Publicacion } from "../components/types";
 
 import "./Inicio.css";
 

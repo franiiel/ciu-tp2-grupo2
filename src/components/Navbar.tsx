@@ -19,7 +19,7 @@ function NavigationBar() {
             <Nav.Link as={NavLink} to="/" >
               Inicio
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/usuario">
+            <Nav.Link as={NavLink} to="/perfil">
               Perfil
             </Nav.Link>
             <Nav.Link as={NavLink} to="/crearPost">
