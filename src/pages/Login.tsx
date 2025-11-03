@@ -1,9 +1,9 @@
 import { Container, Card, Form, Button, Alert } from "react-bootstrap";
 import "./login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useAuth } from "../components/authContext";
-import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png"
 
 const Login: React.FC = () => {
   const { login } = useAuth();
@@ -56,6 +56,10 @@ const Login: React.FC = () => {
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
       <Card className="p-4 shadow-lg login-card">
         <Card.Body>
+          <div className="text-center mb-3">
+            <img src={logo} alt="Logo" className="login-logo" />
+          </div>
+
           <Card.Title className="text-center mb-4 fs-4 fw-bold text-success">
             Iniciar Sesión
           </Card.Title>

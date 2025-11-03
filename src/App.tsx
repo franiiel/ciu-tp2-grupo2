@@ -1,30 +1,39 @@
-import {   Navigate, Route, Routes } from "react-router-dom"
-import Inicio from "./pages/Inicio"
-import Perfil from "./pages/Perfil"
-import NavigationBar from "./components/Navbar"
-import CrearPost from "./pages/CrearPost"
-import Footer from "./components/Footer"
-import Login from "./pages/Login"
-import Registrarse from "./pages/Registrarse"
-import { AuthProvider} from "./components/authContext";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Inicio from "./pages/Inicio";
+import Perfil from "./pages/Perfil";
+import NavigationBar from "./components/Navbar";
+import Sidebar from "./components/Sidebar"; 
+//import buscar
+import CrearPost from "./pages/CrearPost";
+import Footer from "./components/Footer";
+import Login from "./pages/Login";
+import Registrarse from "./pages/Registrarse";
+import { AuthProvider } from "./components/authContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import "./App.css";
 
 function App() {
   return (
     <AuthProvider>
+      <NavigationBar />
+      <Sidebar /> 
 
-        <NavigationBar />
-
+      <div className="main-content">
         <Routes>
-          <Route path="/" element={<ProtectedRoute>
-            <Inicio />
-          </ProtectedRoute>} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Inicio />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/perfil"
             element={
               <ProtectedRoute>
-                <Perfil/>
-             </ProtectedRoute>
+                <Perfil />
+              </ProtectedRoute>
             }
           />
           <Route
@@ -35,7 +44,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           {/* 🔓 Rutas públicas */}
           <Route path="/login" element={<Login />} />
           <Route path="/registrarse" element={<Registrarse />} />
@@ -43,8 +51,9 @@ function App() {
           {/* Redirección si no coincide */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+      </div>
 
-        <Footer />
+      <Footer />
     </AuthProvider>
   );
 }
