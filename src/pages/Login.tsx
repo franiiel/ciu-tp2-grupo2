@@ -3,12 +3,14 @@ import "./login.css";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import { useAuth } from "../components/authContext";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const { login } = useAuth();
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const usuarioHardcodeado = {
     id: 1,
@@ -44,6 +46,7 @@ const Login: React.FC = () => {
       }
 
       login(foundUser);
+      navigate("/");
     } catch {
       setError("Error al conectar con la API");
     }
