@@ -33,6 +33,13 @@
   border-radius: 0.5rem;
 }
 
+.login-logo {
+  width: 100px; 
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 @media (max-width: 576px) {
   .login-card {
     width: 90%;
