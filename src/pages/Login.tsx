@@ -1,6 +1,6 @@
 import { Container, Card, Form, Button, Alert } from "react-bootstrap";
 import "./login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useAuth } from "../components/authContext";
 import logo from "../assets/logo.png"
@@ -10,6 +10,7 @@ const Login: React.FC = () => {
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const usuarioHardcodeado = {
     id: 1,
@@ -45,6 +46,7 @@ const Login: React.FC = () => {
       }
 
       login(foundUser);
+      navigate("/");
     } catch {
       setError("Error al conectar con la API");
     }
