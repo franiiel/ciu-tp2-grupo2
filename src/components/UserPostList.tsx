@@ -1,18 +1,13 @@
+
 import React, { useEffect, useState } from "react";
 import Post from "./UserPost";
 import { getPublicacionesById } from "./GetPost";
-import { useAuth } from "./authContext";
-
-interface PostData {
-  nickName: string;
-  description: string;
-  avatarUrl?: string;
-  tagsIds?: number[];
-}
+import { useAuth } from "../components/AuthContext";
+import type { Publicacion } from "./types";
 
 const UserPostList: React.FC = () => {
   const { user } = useAuth();
-  const [posts, setPosts] = useState<PostData[]>([]);
+  const [posts, setPosts] = useState<Publicacion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,16 +19,10 @@ const UserPostList: React.FC = () => {
       setError(null);
       try {
         const data = await getPublicacionesById(user.id);
-        if (data) {
-          // Normalizamos los datos para que coincidan con las props de UserPost
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const normalized: PostData[] = data.map((p: any) => ({
-            nickName: p.nickName || user.nickName,
-            description: p.description || p.title || "",
-            avatarUrl: p.avatarUrl || "/default-avatar.png",
-            tagsIds: p.tagsIds || [],
-          }));
-          setPosts(normalized);
+        if (Array.isArray(data)) {
+          setPosts(data);
+        } else {
+          setError("Formato de datos inesperado");
         }
       } catch {
         setError("Error al cargar las publicaciones");
@@ -51,13 +40,11 @@ const UserPostList: React.FC = () => {
 
   return (
     <div className="mt-3">
-      {posts.map((t, i) => (
+      {posts.map((post) => (
         <Post
-          key={i}
-          nickName={t.nickName}
-          description={t.description}
-          avatarUrl={`https://api.dicebear.com/7.x/bottts/svg?seed=${User.nickName}`}
-          tagsIds={t.tagsIds as [number]} // tu tipo original
+          key={post.id}
+          post={post}
+          avatarUrl={`https://api.dicebear.com/7.x/bottts/svg?seed=${post.User.nickName}`}
         />
       ))}
     </div>
