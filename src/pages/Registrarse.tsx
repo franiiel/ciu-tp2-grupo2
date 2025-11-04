@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Container, Card, Form, Button, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
+const API_URL = "http://localhost:3001";
+
 type Usuario = {
   nickName: string;
   firstName: string;
@@ -38,7 +40,7 @@ export default function Registrarse() {
 
     const nuevoUsuario: Usuario = { nickName, firstName, lastName, email, password };
 
-    fetch("http://localhost:3001/users", {
+    fetch(`${API_URL}/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nuevoUsuario),
