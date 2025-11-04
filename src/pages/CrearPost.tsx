@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, Card } from "react-bootstrap";
 
 
+const API_URL = "http://localhost:3001";
+
 export default function NuevaPublicacion() {
   const navigate = useNavigate();
 
@@ -45,7 +47,7 @@ export default function NuevaPublicacion() {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:3001/posts", {
+      const res = await fetch(`${API_URL}/posts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

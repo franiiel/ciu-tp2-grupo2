@@ -2,6 +2,8 @@ import "./../styles/postDetalle.css";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+const API_URL = "http://localhost:3001";
+
 interface Tag {
   id: number;
   name: string;
@@ -42,7 +44,7 @@ const PostDetalle = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch(`http://localhost:3001/posts/${id}`);
+        const res = await fetch(`${API_URL}/posts/${id}`);
         if (!res.ok) throw new Error("Error al obtener el post");
         const data = await res.json();
 

@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import { useAuth } from "../components/AuthContext";
 import logo from "../assets/logo.png"
 
+const API_URL = "http://localhost:3001";
+
 const Login: React.FC = () => {
   const { login } = useAuth();
   const [nickName, setNickName] = useState("");
@@ -23,7 +25,7 @@ const Login: React.FC = () => {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3001/users");
+      const res = await fetch(`${API_URL}/users`);
       const users = await res.json();
 
       // validar nick y contraseña fija
