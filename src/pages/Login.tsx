@@ -52,7 +52,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center min-vh-100">
+    <Container className="login-container d-flex justify-content-center align-items-center">
       <Card className="p-4 shadow-lg login-card">
         <Card.Body>
           <div className="text-center mb-3">
