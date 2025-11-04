@@ -2,7 +2,7 @@ import { Container, Card, Form, Button, Alert } from "react-bootstrap";
 import "../styles/login.css";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { useAuth } from "../components/authContext";
+import { useAuth } from "../components/AuthContext";
 import logo from "../assets/logo.png"
 
 const Login: React.FC = () => {
@@ -29,6 +29,7 @@ const Login: React.FC = () => {
       // validar nick y contraseña fija
       
       const foundUser =
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         users.find((u: any) => u.nickName === nickName) ||
         (nickName === usuarioHardcodeado.nick ? usuarioHardcodeado : null);
       

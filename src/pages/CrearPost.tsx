@@ -45,7 +45,7 @@ export default function NuevaPublicacion() {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:3050/posts", {
+      const res = await fetch("http://localhost:3001/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

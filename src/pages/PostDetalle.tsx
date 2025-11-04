@@ -39,14 +39,36 @@ const PostDetalle = () => {
   const [post, setPost] = useState<Post | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
 
-  
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const res = await fetch(`http://localhost:3001/posts/${id}`);
         if (!res.ok) throw new Error("Error al obtener el post");
         const data = await res.json();
-        setPost(data);
+
+        // 🧩 Normalizamos los nombres de campos
+        const normalizedPost: Post = {
+          id: data.idPost,
+          description: data.description,
+          createdAt: data.createdAt,
+          User: {
+            id: data.User.idUser,
+            nickName: data.User.nickName,
+            email: data.User.email || "",
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          Tags: data.Tags.map((t: any, index: number) => ({
+            id: index,
+            name: t.name,
+          })),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          Images: data.Images?.map((img: any, index: number) => ({
+            id: index,
+            imageUrl: img.imageUrl,
+          })),
+        };
+
+        setPost(normalizedPost);
       } catch (error) {
         console.error(error);
       }
@@ -55,23 +77,20 @@ const PostDetalle = () => {
     fetchPost();
   }, [id]);
 
-  
   useEffect(() => {
-  const fetchComments = async () => {
-    try {
-      const res = await fetch(`http://localhost:3001/comments/post/${id}`); 
-      if (!res.ok) throw new Error("Error al obtener comentarios");
-      const data = await res.json();
-      setComments(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const fetchComments = async () => {
+      try {
+        const res = await fetch(`http://localhost:3001/comments/post/${id}`);
+        if (!res.ok) throw new Error("Error al obtener comentarios");
+        const data = await res.json();
+        setComments(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  fetchComments();
-}, [id]);
-
-
+    fetchComments();
+  }, [id]);
 
   if (!post) return <p className="text-center mt-5">Cargando publicación...</p>;
 
@@ -80,6 +99,18 @@ const PostDetalle = () => {
       <h2 className="post-title">Publicación #{post.id}</h2>
 
       <p className="post-description">{post.description}</p>
+      {post.Images && post.Images.length > 0 && (
+        <div className="post-images">
+          {post.Images.map((img) => (
+            <img
+              key={img.id}
+              src={img.imageUrl}
+              alt="Imagen del post"
+              className="post-image"
+            />
+          ))}
+        </div>
+      )}
 
       <p className="post-meta">
         Publicado por <strong>{post.User.nickName}</strong> el{" "}
@@ -124,7 +155,6 @@ const PostDetalle = () => {
         </button>
       </form>
 
-        
       <Link to="/" className="back-button">
         ← Volver al inicio
       </Link>

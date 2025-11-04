@@ -8,10 +8,11 @@ import CrearPost from "./pages/CrearPost";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Registrarse from "./pages/Registrarse";
-import { AuthProvider } from "./components/authContext";
+import { AuthProvider } from "./components/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PostDetalle from "./pages/PostDetalle";
 import "./App.css";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   return (
@@ -53,11 +54,23 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* 🔓 Rutas públicas */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/registrarse" element={<Registrarse />} />
+                <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/registrarse"
+            element={
+              <PublicRoute>
+                <Registrarse />
+              </PublicRoute>
+            }
+          />
 
-          {/* Redirección si no coincide */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
