@@ -15,6 +15,7 @@ export default function PostDetalle() {
   const [post, setPost] = useState<PublicacionConImagenes | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -65,6 +66,31 @@ export default function PostDetalle() {
 
     fetchComments();
   }, [id]);
+
+   const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newComment.trim()) return;
+
+    try {
+      const res = await fetch(`${API_URL}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: newComment,
+          postId: id,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Error al enviar el comentario");
+      const savedComment = await res.json();
+
+      setComments((prev) => [...prev, savedComment]);
+      setNewComment(""); // Limpiar textarea
+    } catch (error) {
+      console.error(error);
+      alert("No se pudo enviar el comentario.");
+    }
+  };
 
   if (loading)
     return <p className="text-center mt-5">Cargando publicación...</p>;
@@ -117,11 +143,13 @@ export default function PostDetalle() {
         )}
       </div>
 
-      <form className="comment-form">
+      <form className="comment-form" onSubmit={handleSubmit}>
         <textarea
           className="comment-input"
           placeholder="Escribe un comentario..."
           required
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
         />
         <button type="submit" className="btn-comment">
           Enviar
