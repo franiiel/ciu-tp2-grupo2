@@ -2,10 +2,10 @@ import React from "react";
 import { Container, Button } from "react-bootstrap";
 import PerfilHeader from "../components/PerfilHeader";
 import UserPostList from "../components/UserPostList";
-import { useAuth } from "../components/authContext";
+import { useAuth } from "../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const Dashboard: React.FC = () => {
+const Perfil: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -21,8 +21,8 @@ const Dashboard: React.FC = () => {
       <PerfilHeader
         name={user.nickName}
         avatarUrl={`https://api.dicebear.com/7.x/bottts/svg?seed=${user.nickName}`}
-        followers={320}  
-        following={180}
+        followers={321}  
+        following={185}
       />
 
       <div className="d-flex justify-content-end mb-3">
@@ -36,4 +36,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default Perfil;

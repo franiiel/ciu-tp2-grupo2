@@ -7,7 +7,7 @@ import "../styles/navbar.css";
 import logoutIcon from "../assets/iconoSalir.png";
 import logo from "../assets/logo.png";
 import refresh from "../assets/iconoRefresh.png";
-import { useAuth } from "../components/authContext";
+import { useAuth } from "../components/AuthContext";
 
 const NavigationBar: FC = () => {
   const navigate = useNavigate();

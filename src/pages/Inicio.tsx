@@ -2,23 +2,51 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner, Alert } from "react-bootstrap";
 import PostCard from "../components/PostCard";
-import { getPublicaciones } from "../components/GetPost";
+import { getCommentsByPostId, getImagesByPostId, getPublicaciones } from "../components/GetPost";
 import type { Publicacion } from "../components/types";
 
 import "../styles/inicio.css";
 
+type PublicacionConExtras = Publicacion & {
+  Images?: { imageUrl: string }[];
+  commentCount?: number;
+};
 export default function Inicio() {
-  const [publicaciones, setPublicaciones] = useState<Publicacion[]>([]);
+  const [publicaciones, setPublicaciones] = useState<PublicacionConExtras[]>(
+    []
+  );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getPublicaciones()
-      .then((data) => setPublicaciones(data))
-      .catch((e) => setError((e as Error).message))
-      .finally(() => setLoading(false));
-  }, []);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const posts = await getPublicaciones();
+      const postsWithExtras = await Promise.all(
+        posts.map(async (post) => {
+          const [comments, images] = await Promise.all([
+            getCommentsByPostId(post.id),
+            getImagesByPostId(post.id),
+          ]);
+          return {
+            ...post,
+            commentCount: comments.length,
+            Images: images.map((img) => ({ imageUrl: img.url })),
+          };
+        })
+      );
 
+      setPublicaciones(postsWithExtras);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
   if (loading) {
     return (
       <div className="text-center mt-5">
@@ -50,11 +78,10 @@ export default function Inicio() {
                   id: index,
                   name: tag.name,
                 }))}
-                commentCount={post.Comments ? post.Comments.length : 0}
+                commentCount={post.commentCount ?? 0}
               />
             </Col>
           ))
-
         ) : (
           <p className="text-center">No hay publicaciones disponibles.</p>
         )}

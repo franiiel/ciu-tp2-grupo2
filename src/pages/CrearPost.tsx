@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, Card } from "react-bootstrap";
 
 
+const API_URL = "http://localhost:3001";
+
 export default function NuevaPublicacion() {
   const navigate = useNavigate();
 
@@ -15,24 +17,22 @@ export default function NuevaPublicacion() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Manejar cambios en los campos de imagen
   const handleImageChange = (index: number, value: string) => {
     const newUrls = [...imageUrls];
     newUrls[index] = value;
     setImageUrls(newUrls);
   };
 
-  // Agregar campo de imagen
+
   const addImageField = () => {
     setImageUrls([...imageUrls, ""]);
   };
 
-  // Quitar campo de imagen
   const removeImageField = (index: number) => {
     setImageUrls(imageUrls.filter((_, i) => i !== index));
   };
 
-  // Enviar formulario
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -45,7 +45,7 @@ export default function NuevaPublicacion() {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:3050/posts", {
+      const res = await fetch(`${API_URL}/posts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

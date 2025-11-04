@@ -1,10 +1,8 @@
 export type Publicacion = {
-  id: number;
+  idPost: number;
   description: string;
-  Images: { imageUrl: string }[];
   Tags: { name: string }[];
   User: { idUser: number; nickName: string };
-  Comments?: { idComment: number }[];
   createdAt?: string;
 };
 
@@ -16,7 +14,25 @@ export type User = {
   email: string;
 };
 
-export type LoginResponse = {
-  token: string;
-  user: User;
+export type LoginData = {
+  email: string;
+  password: string;
 };
+
+export type LoginResponse = {
+  user: {
+    id: number;
+    nombre: string;
+    email: string;
+  };
+};
+export type Comment = {
+  id: number;
+  content: string;
+  createdAt: string;
+  User: {
+    id: number;
+    nickName: string;
+    email: string;
+  };
+}
