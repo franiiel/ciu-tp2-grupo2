@@ -17,24 +17,22 @@ export default function NuevaPublicacion() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Manejar cambios en los campos de imagen
   const handleImageChange = (index: number, value: string) => {
     const newUrls = [...imageUrls];
     newUrls[index] = value;
     setImageUrls(newUrls);
   };
 
-  // Agregar campo de imagen
+
   const addImageField = () => {
     setImageUrls([...imageUrls, ""]);
   };
 
-  // Quitar campo de imagen
   const removeImageField = (index: number) => {
     setImageUrls(imageUrls.filter((_, i) => i !== index));
   };
 
-  // Enviar formulario
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 

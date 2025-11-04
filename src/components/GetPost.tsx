@@ -42,3 +42,18 @@ export async function getCommentsByPostId(postId: number): Promise<Comment[]> {
     return [];
   }
 }
+
+
+
+export async function getImagesByPostId(postId: number): Promise<{ id: number; url: string }[]> {
+  try {
+    const res = await fetch(`${API_URL}/postimages/post/${postId}`);
+    if (!res.ok) throw new Error("Error al obtener las imágenes");
+
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}

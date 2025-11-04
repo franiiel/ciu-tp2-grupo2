@@ -1,73 +1,50 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import "./../styles/postDetalle.css";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getImagesByPostId } from "../components/GetPost";
+import type { Publicacion, Comment } from "../components/types";
 
 const API_URL = "http://localhost:3001";
+type PublicacionConImagenes = Publicacion & {
+  Images?: { id: number; imageUrl: string }[];
+};
 
-interface Tag {
-  id: number;
-  name: string;
-}
-
-interface Image {
-  id: number;
-  imageUrl: string;
-}
-
-interface User {
-  id: number;
-  nickName: string;
-  email: string;
-}
-
-interface Comment {
-  id: number;
-  content: string;
-  User: User;
-  createdAt: string;
-}
-
-interface Post {
-  id: number;
-  description: string;
-  createdAt: string;
-  User: User;
-  Tags: Tag[];
-  Images?: Image[];
-}
-
-const PostDetalle = () => {
+export default function PostDetalle() {
   const { id } = useParams<{ id: string }>();
-  const [post, setPost] = useState<Post | null>(null);
+  const [post, setPost] = useState<PublicacionConImagenes | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
+        setLoading(true);
         const res = await fetch(`${API_URL}/posts/${id}`);
         if (!res.ok) throw new Error("Error al obtener el post");
         const data = await res.json();
+        const images = await getImagesByPostId(Number(id));
 
-        // ✅ Adaptado a la estructura real del backend
-        const normalizedPost: Post = {
+        const normalizedPost: PublicacionConImagenes = {
           id: data.id,
           description: data.description,
           createdAt: data.createdAt,
           User: {
             id: data.User.id,
             nickName: data.User.nickName,
-            email: data.User.email || "",
           },
-          Tags: data.Tags.map((t: Tag) => ({
-            id: t.id,
-            name: t.name,
+          Tags: data.Tags?.map((t: any) => ({ name: t.name })) || [],
+          Images: images.map((img: any) => ({
+            id: img.id,
+            imageUrl: img.url,
           })),
-          Images: [], // no vienen en este endpoint
         };
 
         setPost(normalizedPost);
       } catch (error) {
         console.error("Error al obtener el post:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -77,7 +54,7 @@ const PostDetalle = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await fetch(`http://localhost:3001/comments/post/${id}`);
+        const res = await fetch(`${API_URL}/comments/post/${id}`);
         if (!res.ok) throw new Error("Error al obtener comentarios");
         const data = await res.json();
         setComments(data);
@@ -89,7 +66,9 @@ const PostDetalle = () => {
     fetchComments();
   }, [id]);
 
-  if (!post) return <p className="text-center mt-5">Cargando publicación...</p>;
+  if (loading)
+    return <p className="text-center mt-5">Cargando publicación...</p>;
+  if (!post) return <p className="text-center mt-5">No se encontró el post.</p>;
 
   return (
     <div className="post-detalle-container">
@@ -111,21 +90,18 @@ const PostDetalle = () => {
 
       <p className="post-meta">
         Publicado por <strong>{post.User.nickName}</strong> el{" "}
-        {new Date(post.createdAt).toLocaleDateString()}
+        {new Date(post.createdAt ?? "").toLocaleDateString()}
       </p>
-
-      {/* Etiquetas */}
       {post.Tags.length > 0 && (
         <div className="tag-list">
-          {post.Tags.map((tag) => (
-            <span key={tag.id} className="tag-item">
+          {post.Tags.map((tag, index) => (
+            <span key={index} className="tag-item">
               #{tag.name}
             </span>
           ))}
         </div>
       )}
 
-      {/* Comentarios */}
       <div className="comments-section">
         <h4>Comentarios ({comments.length})</h4>
         {comments.length === 0 ? (
@@ -157,6 +133,4 @@ const PostDetalle = () => {
       </Link>
     </div>
   );
-};
-
-export default PostDetalle;
+}

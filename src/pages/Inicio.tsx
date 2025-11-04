@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner, Alert } from "react-bootstrap";
 import PostCard from "../components/PostCard";
-import { getCommentsByPostId, getPublicaciones } from "../components/GetPost";
+import { getCommentsByPostId, getImagesByPostId, getPublicaciones } from "../components/GetPost";
 import type { Publicacion } from "../components/types";
 
 import "../styles/inicio.css";
@@ -19,30 +19,34 @@ export default function Inicio() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const posts = await getPublicaciones();
-        console.log("Posts:", posts);
-        const postsWithComments = await Promise.all(
-          posts.map(async (p) => {
-            const comments = await getCommentsByPostId(p.id);
-             console.log(`→ ID ${p.id} devolvió ${comments.length} comentarios`);
-            return { ...p, commentCount: comments.length };
-          })
-        );
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const posts = await getPublicaciones();
+      const postsWithExtras = await Promise.all(
+        posts.map(async (post) => {
+          const [comments, images] = await Promise.all([
+            getCommentsByPostId(post.id),
+            getImagesByPostId(post.id),
+          ]);
+          return {
+            ...post,
+            commentCount: comments.length,
+            Images: images.map((img) => ({ imageUrl: img.url })),
+          };
+        })
+      );
 
-        setPublicaciones(postsWithComments);
-      } catch (e) {
-        setError((e as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
+      setPublicaciones(postsWithExtras);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchData();
-  }, []);
-
+  fetchData();
+}, []);
   if (loading) {
     return (
       <div className="text-center mt-5">
