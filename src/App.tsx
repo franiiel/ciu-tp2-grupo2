@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Inicio from "./pages/Inicio";
 import Perfil from "./pages/Perfil";
 import NavigationBar from "./components/Navbar";
@@ -14,13 +14,19 @@ import PostDetalle from "./pages/PostDetalle";
 import "./App.css";
 import PublicRoute from "./components/PublicRoute";
 
-function App() {
-  return (
-    <AuthProvider>
-      <NavigationBar />
-      <Sidebar /> 
+function AppContent() {
+  const location = useLocation();
 
-      <div className="main-content">
+  // rutas donde NO se muestran las barras
+  const hideNavAndSidebar = ["/login", "/registrarse"];
+  const shouldHide = hideNavAndSidebar.includes(location.pathname);
+
+  return (
+    <>
+      {!shouldHide && <NavigationBar />}
+      {!shouldHide && <Sidebar />}
+
+      <div className={`main-content ${shouldHide ? "no-bars" : ""}`}>
         <Routes>
           <Route
             path="/"
@@ -76,6 +82,14 @@ function App() {
       </div>
 
       <Footer />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
     </AuthProvider>
   );
 }
