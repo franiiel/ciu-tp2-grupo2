@@ -21,13 +21,12 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
+    
     try {
       const res = await fetch("http://localhost:3001/users");
       const users = await res.json();
 
       // validar nick y contraseña fija
-      
       const foundUser =
         users.find((u: any) => u.nickName === nickName) ||
         (nickName === usuarioHardcodeado.nick ? usuarioHardcodeado : null);
@@ -47,6 +46,8 @@ const Login: React.FC = () => {
     } catch {
       setError("Error al conectar con la API");
     }
+
+
   };
 
   return (
