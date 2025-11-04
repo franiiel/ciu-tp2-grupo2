@@ -7,7 +7,7 @@ import settingsIcon from "../assets/iconoConfig.png";
 import crearPost from "../assets/crearPublicacion.png"
 import inicio from "../assets/iconoInicio.png";
 //importar perfil o usar la foto del perfil
-import "./Sidebar.css";
+import "../styles/sidebar.css";
 
 const Sidebar: FC = () => {
   const [showMore, setShowMore] = useState<boolean>(false);

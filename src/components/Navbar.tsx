@@ -3,20 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import "./Navbar.css";
-import logout from "../assets/iconoSalir.png";
+import "../styles/navbar.css";
+import logoutIcon from "../assets/iconoSalir.png";
 import logo from "../assets/logo.png";
 import refresh from "../assets/iconoRefresh.png";
+import { useAuth } from "../components/authContext";
 
 const NavigationBar: FC = () => {
   const navigate = useNavigate();
 
-  //logout falta hacer
+  const { logout } = useAuth();
+
   const handleLogout = () => {
-    // lógica de cerrar sesión
-    console.log("Salir");
-    navigate("/login"); //redirigir a login
+    logout();           // llama al método del context
+    navigate("/login"); // redirige
   };
+
 
   //refresh falta hacer
   const handleRefresh = () => {
@@ -33,7 +35,7 @@ const NavigationBar: FC = () => {
 
         <Nav className="navbar-icons d-flex align-items-center">
           <img src={refresh} alt="Refresh" className="nav-icon me-3" onClick={handleRefresh} style={{ cursor: "pointer" }} />
-          <img src={logout} alt="Logout" className="nav-icon" onClick={handleLogout} style={{ cursor: "pointer" }} />
+          <img src={logoutIcon} alt="Logout" className="nav-icon" onClick={handleLogout} style={{ cursor: "pointer" }} />
         </Nav>
       </Container>
     </Navbar>

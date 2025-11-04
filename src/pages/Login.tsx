@@ -1,5 +1,5 @@
 import { Container, Card, Form, Button, Alert } from "react-bootstrap";
-import "./login.css";
+import "../styles/login.css";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useAuth } from "../components/authContext";
@@ -23,22 +23,19 @@ const Login: React.FC = () => {
     setError("");
 
     try {
-      /*const res = await fetch("http://localhost:3001/users");
+      const res = await fetch("http://localhost:3001/users");
       const users = await res.json();
 
       // validar nick y contraseña fija
       
-      let foundUser = users.find(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (u: any) => u.nickName === nickName || usuarioHardcodeado
-      );
-      if (!foundUser) {
+      const foundUser =
+        users.find((u: any) => u.nickName === nickName) ||
+        (nickName === usuarioHardcodeado.nick ? usuarioHardcodeado : null);
+      
+        if (!foundUser) {
         setError("Usuario no encontrado");
         return;
       }
-      }*/
-      const nickNameHarcoded= usuarioHardcodeado.nick
-      const foundUser = nickNameHarcoded
 
       if (password !== "123456") {
         setError("Contraseña incorrecta");

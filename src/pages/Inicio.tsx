@@ -5,7 +5,7 @@ import PostCard from "../components/PostCard";
 import { getPublicaciones } from "../components/GetPost";
 import type { Publicacion } from "../components/types";
 
-import "./Inicio.css";
+import "../styles/inicio.css";
 
 export default function Inicio() {
   const [publicaciones, setPublicaciones] = useState<Publicacion[]>([]);
@@ -41,9 +41,9 @@ export default function Inicio() {
       <Row>
         {publicaciones.length > 0 ? (
           publicaciones.map((post) => (
-            <Col key={post.idPost} md={6} lg={4} className="mb-4">
+            <Col key={post.id} md={6} lg={4} className="mb-4">
               <PostCard
-                id={post.idPost}
+                id={post.id}
                 description={post.description}
                 images={post.Images?.map((img) => img.imageUrl)}
                 tags={post.Tags?.map((tag, index) => ({
@@ -54,6 +54,7 @@ export default function Inicio() {
               />
             </Col>
           ))
+
         ) : (
           <p className="text-center">No hay publicaciones disponibles.</p>
         )}

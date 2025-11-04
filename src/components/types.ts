@@ -1,5 +1,5 @@
 export type Publicacion = {
-  idPost: number;
+  id: number;
   description: string;
   Images: { imageUrl: string }[];
   Tags: { name: string }[];

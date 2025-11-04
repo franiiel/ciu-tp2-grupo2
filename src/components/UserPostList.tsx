@@ -56,7 +56,7 @@ const UserPostList: React.FC = () => {
           key={i}
           nickName={t.nickName}
           description={t.description}
-          avatarUrl={`https://api.dicebear.com/7.x/bottts/svg?seed=${user.nickName}`}
+          avatarUrl={`https://api.dicebear.com/7.x/bottts/svg?seed=${User.nickName}`}
           tagsIds={t.tagsIds as [number]} // tu tipo original
         />
       ))}

@@ -1,9 +1,9 @@
 // src/components/PostCard.tsx
-import { Card, Badge } from "react-bootstrap";
+import { Card, Badge, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./postCard.css";
+import "../styles/postCard.css";
 
-type PostCardProps = {
+type PostCard = {
   id: number;
   description: string;
   images?: string[];
@@ -17,7 +17,7 @@ export default function PostCard({
   images = [],
   tags = [],
   commentCount = 0,
-}: PostCardProps) {
+}: PostCard) {
   return (
     <Card className="post-card shadow-sm mb-4">
       {/* Imagen principal si existe */}
@@ -50,9 +50,11 @@ export default function PostCard({
           </small>
 
           {/* Botón Ver más */}
-          <Link to={`/post/${id}`} className="btn btn-outline-success btn-sm">
-            Ver más →
-          </Link>
+          <Link to={`/posts/${id}`}>
+          <Button variant="outline-success" size="sm">
+            Ver más
+          </Button>
+        </Link>
         </div>
       </Card.Body>
     </Card>
