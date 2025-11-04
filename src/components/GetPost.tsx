@@ -1,5 +1,5 @@
 // src/components/GetPost.tsx
-import { type Publicacion } from "./types";
+import { type Publicacion, type Comment} from "./types";
 
 const API_URL = "http://localhost:3001";
 
@@ -28,5 +28,17 @@ export async function getPublicacionesById(userId: number | null): Promise<Publi
     return data;
   } catch {
     throw new Error("Error al obtener las publicaciones");
+  }
+}
+
+export async function getCommentsByPostId(postId: number): Promise<Comment[]> {
+  try {
+    const res = await fetch(`${API_URL}/comments/post/${postId}`);
+    if (!res.ok) throw new Error("Error al obtener los comentarios");
+    const data: Comment[] = await res.json();
+    return data;
+  } catch (err) {
+    console.error(err);
+    return [];
   }
 }

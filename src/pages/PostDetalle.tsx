@@ -48,31 +48,26 @@ const PostDetalle = () => {
         if (!res.ok) throw new Error("Error al obtener el post");
         const data = await res.json();
 
-        // 🧩 Normalizamos los nombres de campos
+        // ✅ Adaptado a la estructura real del backend
         const normalizedPost: Post = {
-          id: data.idPost,
+          id: data.id,
           description: data.description,
           createdAt: data.createdAt,
           User: {
-            id: data.User.idUser,
+            id: data.User.id,
             nickName: data.User.nickName,
             email: data.User.email || "",
           },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          Tags: data.Tags.map((t: any, index: number) => ({
-            id: index,
+          Tags: data.Tags.map((t: Tag) => ({
+            id: t.id,
             name: t.name,
           })),
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          Images: data.Images?.map((img: any, index: number) => ({
-            id: index,
-            imageUrl: img.imageUrl,
-          })),
+          Images: [], // no vienen en este endpoint
         };
 
         setPost(normalizedPost);
       } catch (error) {
-        console.error(error);
+        console.error("Error al obtener el post:", error);
       }
     };
 

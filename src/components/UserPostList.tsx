@@ -42,7 +42,7 @@ const UserPostList: React.FC = () => {
     <div className="mt-3">
       {posts.map((post) => (
         <Post
-          key={post.idPost}
+          key={post.id}
           post={post}
           avatarUrl={`https://api.dicebear.com/7.x/bottts/svg?seed=${post.User.nickName}`}
         />
