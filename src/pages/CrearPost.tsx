@@ -49,7 +49,7 @@ export default function NuevaPublicacion() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          idUser,
+          userId:idUser,
           description,
           imageUrls: imageUrls.filter((url) => url.trim() !== ""),
         }),

@@ -74,37 +74,46 @@ export default function PostDetalle() {
     return <p className="text-center mt-5">Cargando publicación...</p>;
   if (!post) return <p className="text-center mt-5">No se encontró el post.</p>;
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!newComment.trim()) return;
-    setSubmitting(true);
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:3001/comments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: newComment,
-          postId: id,       
-          userId: user?.id,  
-        }),
-      });
+  if (!newComment.trim()) return;
+  if (!user) {
+    alert("Tenés que iniciar sesión para comentar");
+    return;
+  }
 
-      if (!res.ok) throw new Error("Error al enviar el comentario");
+  setSubmitting(true);
 
-      const savedComment = await res.json();
+  try {
+    const res = await fetch(`${API_URL}/comments`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: newComment,
+        postId: Number(id),
+        userId: user.id, // viene de useAuth
+      }),
+    });
 
-      const commentWithUser = {
-        ...savedComment,
-        User: { id: user?.id, nickName: user?.nickName || "Desconocido" },
-      };
+    if (!res.ok) throw new Error("Error al enviar el comentario");
 
-      setComments((prev) => [...prev, commentWithUser]);
+    const savedComment = await res.json();
 
-      setNewComment("");
-    } catch (error) {
-      console.error("Error al comentar:", error);
-    }
+    // Agregamos el nuevo comentario al estado actual
+    const commentWithUser = {
+      ...savedComment,
+      User: { id: user.id, nickName: user.nickName || "Desconocido" },
+    };
+
+    setComments((prev) => [...prev, commentWithUser]);
+    setNewComment("");
+  } catch (error) {
+    console.error("Error al comentar:", error);
+    alert("No se pudo enviar el comentario");
+  } finally {
+    setSubmitting(false);
+  }
 };
 
 
