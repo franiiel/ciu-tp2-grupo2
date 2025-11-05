@@ -20,7 +20,7 @@ const Sidebar: FC = () => {
           <NavLink to="/" className="sidebar-link">
             <img src={inicio} alt="Inicio" className="icon" /> Inicio
           </NavLink>
-          <NavLink to="/buscar" className="sidebar-link">
+          <NavLink to="/busqueda" className="sidebar-link">
             <img src={searchIcon} alt="Buscar" className="icon" /> Buscar
           </NavLink>
           <NavLink to="/crearPost" className="sidebar-link">

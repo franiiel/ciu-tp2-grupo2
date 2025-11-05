@@ -3,7 +3,7 @@ import Inicio from "./pages/Inicio";
 import Perfil from "./pages/Perfil";
 import NavigationBar from "./components/Navbar";
 import Sidebar from "./components/Sidebar"; 
-//import buscar
+import Busqueda from "./pages/Busqueda";
 import CrearPost from "./pages/CrearPost";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
@@ -76,7 +76,12 @@ function AppContent() {
               </PublicRoute>
             }
           />
-
+          <Route 
+          path="/busqueda" 
+          element={
+              <ProtectedRoute>
+                <Busqueda />
+              </ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
