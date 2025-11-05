@@ -33,10 +33,26 @@
   margin-bottom: 1.5rem;
 }
 
+.image-gallery:has(img:only-child) img {
+  width: 100%;
+  height: 400px;
+}
+
 .image-gallery img {
   width: 48%;
+  height: 250px;           
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: cover;        
+  object-position: center;  
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.image-gallery img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .tag-list {
@@ -107,4 +123,11 @@
 
 .back-button:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .image-gallery img {
+    width: 100%;
+    height: 200px;
+  }
 }

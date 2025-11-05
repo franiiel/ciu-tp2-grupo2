@@ -123,13 +123,12 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
       <p className="post-description">{post.description}</p>
       {post.Images && post.Images.length > 0 && (
-        <div className="post-images">
+        <div className="image-gallery">
           {post.Images.map((img) => (
             <img
               key={img.id}
               src={img.imageUrl}
               alt="Imagen del post"
-              className="post-image"
             />
           ))}
         </div>
