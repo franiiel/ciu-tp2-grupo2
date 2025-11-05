@@ -1,5 +1,7 @@
-import { Card, Image, Badge } from "react-bootstrap";
+import { Card, Image, Badge, Button } from "react-bootstrap";
 import type { Publicacion } from "./types";
+import { Link } from "react-router-dom";
+import "../styles/UserPost.css";
 
 interface PostProps {
   post: Publicacion;
@@ -29,6 +31,18 @@ const Post: React.FC<PostProps> = ({ post, avatarUrl }) => {
                 #{tag.name}
               </Badge>
             ))}
+          </div>
+          
+          <div className="user-post-button">
+            <Link
+              to={`/posts/${post.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <Button variant="outline-success" size="sm">
+                Ver más
+              </Button>
+            </Link>
+
           </div>
         </div>
       </div>

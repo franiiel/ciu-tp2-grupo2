@@ -52,13 +52,12 @@ const Sidebar: FC = () => {
         <NavLink to="/" className="bottom-link">
          <img src={inicio} alt="Inicio" className="icon" />
         </NavLink>
-        <NavLink to="/buscar" className="bottom-link">
+        <NavLink to="/Busqueda" className="bottom-link">
           <img src={searchIcon} alt="Buscar" className="icon" />
         </NavLink>
         <NavLink to="/CrearPost" className="bottom-link">
            <img src={crearPost} alt="Crear post" className="icon" />
         </NavLink>
-        {/*aca faltaría agregar el perfil */}
         <div>
           <div
             className="sidebar-link more-link"
