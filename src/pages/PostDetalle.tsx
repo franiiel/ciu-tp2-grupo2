@@ -34,8 +34,8 @@ export default function PostDetalle() {
           description: data.description,
           createdAt: data.createdAt,
           User: {
-            id: data.User.id,
-            nickName: data.User.nickName,
+            id: data.User?.id || data.user?.id,
+            nickName: data.User?.nickName || data.user?.nickName || "Desconocido",
           },
           Tags: data.Tags?.map((t: any) => ({ name: t.name })) || [],
           Images: images.map((img: any) => ({
@@ -136,7 +136,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       )}
 
       <p className="post-meta">
-        Publicado por <strong>{post.User.nickName}</strong> el{" "}
+        Publicado por <strong>{post.User?.nickName ?? "Usuario desconocido"}</strong> el{" "}
         {new Date(post.createdAt ?? "").toLocaleDateString()}
       </p>
       {post.Tags.length > 0 && (
