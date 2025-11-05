@@ -1,23 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Card } from "react-bootstrap";
 import { useAuth } from "../components/AuthContext";
 
-
 const API_URL = "http://localhost:3001";
+
+type Tag = {
+  id: number;
+  name: string;
+};
 
 export default function NuevaPublicacion() {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
-  // Estados locales
   const [description, setDescription] = useState("");
   const [imageUrls, setImageUrls] = useState<string[]>([""]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //const [idUser, setIdUser] = useState<number>(1); //Provisorio (hasta tener login)
-  const { user } = useAuth();
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  //Obtener etiquetas al cargar
+  useEffect(() => {
+    fetch(`${API_URL}/tags`)
+      .then((res) => res.json())
+      .then((data: Tag[]) => setTags(data))
+      .catch((err) => console.error("Error al obtener etiquetas:", err));
+  }, []);
 
   const handleImageChange = (index: number, value: string) => {
     const newUrls = [...imageUrls];
@@ -25,15 +36,9 @@ export default function NuevaPublicacion() {
     setImageUrls(newUrls);
   };
 
-
-  const addImageField = () => {
-    setImageUrls([...imageUrls, ""]);
-  };
-
-  const removeImageField = (index: number) => {
+  const addImageField = () => setImageUrls([...imageUrls, ""]);
+  const removeImageField = (index: number) =>
     setImageUrls(imageUrls.filter((_, i) => i !== index));
-  };
-
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -43,32 +48,47 @@ export default function NuevaPublicacion() {
       return;
     }
 
-    setLoading(true);
-    setMessage("");
     if (!user) {
       setMessage("Debés iniciar sesión para publicar.");
       return;
-}
+    }
+
+    setLoading(true);
+    setMessage("");
+
     try {
-      const res = await fetch(`${API_URL}/posts`, {
+      //Crear post
+      const resPost = await fetch(`${API_URL}/posts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: user.id,
           description,
-          imageUrls: imageUrls.filter((url) => url.trim() !== ""),
+          userId: user.id,
+          tagIds: selectedTagIds,
         }),
       });
 
-      if (!res.ok) throw new Error("Error al crear publicación");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const data:JSON = await res.json();
+      if (!resPost.ok) throw new Error("Error al crear la publicación");
+      const postCreado = await resPost.json();
+
+      //Si hay imágenes, crear cada una
+      const urls = imageUrls.filter((url) => url.trim() !== "");
+      for (const url of urls) {
+        await fetch(`${API_URL}/postimages`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            url,
+            postId: postCreado.id,
+          }),
+        });
+      }
 
       setMessage("Publicación creada con éxito!");
-      setTimeout(() => navigate("/usuario"), 1500); // Redirige al perfil o inicio
+      setTimeout(() => navigate("/usuario"), 1500);
     } catch (error) {
       console.error(error);
-      setMessage("Error al crear publicación.");
+      setMessage("Error al crear la publicación.");
     } finally {
       setLoading(false);
     }
@@ -89,6 +109,28 @@ export default function NuevaPublicacion() {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Escribí algo interesante..."
           />
+        </Form.Group>
+
+        {/* Etiquetas */}
+        <Form.Group className="mb-3">
+          <Form.Label>Etiquetas (opcional)</Form.Label>
+          <div>
+            {tags.map((tag) => (
+              <Form.Check
+                key={tag.id}
+                type="checkbox"
+                label={tag.name}
+                checked={selectedTagIds.includes(tag.id)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedTagIds([...selectedTagIds, tag.id]);
+                  } else {
+                    setSelectedTagIds(selectedTagIds.filter((id) => id !== tag.id));
+                  }
+                }}
+              />
+            ))}
+          </div>
         </Form.Group>
 
         {/* URLs de Imágenes */}
