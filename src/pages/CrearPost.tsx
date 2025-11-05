@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Card } from "react-bootstrap";
+import { useAuth } from "../components/AuthContext";
 
 
 const API_URL = "http://localhost:3001";
@@ -13,7 +14,8 @@ export default function NuevaPublicacion() {
   const [description, setDescription] = useState("");
   const [imageUrls, setImageUrls] = useState<string[]>([""]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [idUser, setIdUser] = useState<number>(1); //Provisorio (hasta tener login)
+  //const [idUser, setIdUser] = useState<number>(1); //Provisorio (hasta tener login)
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -43,13 +45,16 @@ export default function NuevaPublicacion() {
 
     setLoading(true);
     setMessage("");
-
+    if (!user) {
+      setMessage("Debés iniciar sesión para publicar.");
+      return;
+}
     try {
       const res = await fetch(`${API_URL}/posts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId:idUser,
+          userId: user.id,
           description,
           imageUrls: imageUrls.filter((url) => url.trim() !== ""),
         }),
