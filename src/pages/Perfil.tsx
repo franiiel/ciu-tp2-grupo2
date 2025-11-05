@@ -1,18 +1,12 @@
 import React from "react";
-import { Container, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import PerfilHeader from "../components/PerfilHeader";
 import UserPostList from "../components/UserPostList";
 import { useAuth } from "../components/AuthContext";
-import { useNavigate } from "react-router-dom";
+
 
 const Perfil: React.FC = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login"); 
-  };
+  const { user } = useAuth();
 
   if (!user) return <p>Cargando usuario...</p>; 
 
@@ -24,13 +18,6 @@ const Perfil: React.FC = () => {
         followers={321}  
         following={185}
       />
-
-      <div className="d-flex justify-content-end mb-3">
-        <Button variant="danger" onClick={handleLogout}>
-          Cerrar sesión
-        </Button>
-      </div>
-
       <UserPostList />
     </Container>
   );
