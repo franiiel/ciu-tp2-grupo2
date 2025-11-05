@@ -3,7 +3,6 @@
   border-top: 1px solid #dee2e6;
   text-align: center;
   padding: 1.5rem 0;
-  
 }
 
 .footer .social-icons {
@@ -22,8 +21,4 @@
 .footer .social-icons a:hover {
   color: #198754;
   transform: scale(1.15);
-}
-
-body {
-  padding-bottom: 100px; 
 }
