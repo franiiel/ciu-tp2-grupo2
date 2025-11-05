@@ -1,8 +1,8 @@
 export type Publicacion = {
-  idPost: number;
+  id: number;
   description: string;
   Tags: { name: string }[];
-  User: { idUser: number; nickName: string };
+  User: { id: number; nickName: string };
   createdAt?: string;
 };
 
