@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getImagesByPostId } from "../components/GetPost";
 import type { Publicacion, Comment } from "../components/types";
+import { useAuth } from "../components/AuthContext";
 
 const API_URL = "http://localhost:3001";
 type PublicacionConImagenes = Publicacion & {
@@ -15,7 +16,9 @@ export default function PostDetalle() {
   const [post, setPost] = useState<PublicacionConImagenes | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
-  const [newComment, setNewComment] = useState("");
+  const [newComment, setNewComment] = useState(""); 
+  const [submitting, setSubmitting] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -96,6 +99,40 @@ export default function PostDetalle() {
     return <p className="text-center mt-5">Cargando publicación...</p>;
   if (!post) return <p className="text-center mt-5">No se encontró el post.</p>;
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!newComment.trim()) return;
+    setSubmitting(true);
+
+    try {
+      const res = await fetch("http://localhost:3001/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: newComment,
+          postId: id,       
+          userId: user?.id,  
+        }),
+      });
+
+      if (!res.ok) throw new Error("Error al enviar el comentario");
+
+      const savedComment = await res.json();
+
+      const commentWithUser = {
+        ...savedComment,
+        User: { id: user?.id, nickName: user?.nickName || "Desconocido" },
+      };
+
+      setComments((prev) => [...prev, commentWithUser]);
+
+      setNewComment("");
+    } catch (error) {
+      console.error("Error al comentar:", error);
+    }
+};
+
+
   return (
     <div className="post-detalle-container">
       <h2 className="post-title">Publicación #{post.id}</h2>
@@ -147,14 +184,17 @@ export default function PostDetalle() {
         <textarea
           className="comment-input"
           placeholder="Escribe un comentario..."
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
           required
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
-        <button type="submit" className="btn-comment">
-          Enviar
+        <button type="submit" className="btn-comment" disabled={submitting}>
+          {submitting ? "Enviando..." : "Enviar"}
         </button>
       </form>
+
 
       <Link to="/" className="back-button">
         ← Volver al inicio
