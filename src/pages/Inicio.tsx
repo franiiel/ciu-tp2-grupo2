@@ -23,8 +23,9 @@ export default function Inicio() {
     try {
       setLoading(true);
       const posts = await getPublicaciones();
+      const shuffled = posts.sort(() => Math.random() - 0.5);
       const postsWithExtras = await Promise.all(
-        posts.map(async (post) => {
+        shuffled.map(async (post) => {
           const [comments, images] = await Promise.all([
             getCommentsByPostId(post.id),
             getImagesByPostId(post.id),
@@ -69,7 +70,7 @@ export default function Inicio() {
       <Row>
         {publicaciones.length > 0 ? (
           publicaciones.map((post) => (
-            <Col key={post.id} md={6} lg={4} className="mb-4">
+            <Col key={post.id} xs={12} className="mb-4">
               <PostCard
                 id={post.id}
                 description={post.description}
@@ -86,6 +87,13 @@ export default function Inicio() {
           <p className="text-center">No hay publicaciones disponibles.</p>
         )}
       </Row>
+
+      <div className="text-center mt-3 fin-publicaciones">
+        <p>
+          🌀 <strong>Has llegado al final.</strong> Refresca la página para ver nuevas publicaciones.
+        </p>
+      </div>
+
     </Container>
   );
 }
