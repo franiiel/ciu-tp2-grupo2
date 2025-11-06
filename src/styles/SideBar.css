@@ -37,23 +37,12 @@
   margin-right: 0.75rem;
 }
 
-/* Subitems “Más” */
-.more-items {
-  margin-left: 1.5rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.sub-item {
-  padding: 0.25rem 0;
-}
-
 /* Ajustar imágenes */
 .sidebar-link .icon,
 .bottom-link .icon,
 .nav-icon {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   margin-right: 0.75rem;
 }
 

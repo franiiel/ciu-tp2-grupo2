@@ -1,16 +1,12 @@
-import { useState} from "react";
 import type { FC } from "react";
 import { NavLink } from "react-router-dom";
 import searchIcon from "../assets/iconoBuscar.png";
-import moreIcon from "../assets/iconoMas.png";
-import settingsIcon from "../assets/iconoConfig.png";
 import crearPost from "../assets/crearPublicacion.png"
 import inicio from "../assets/iconoInicio.png";
 //importar perfil o usar la foto del perfil
 import "../styles/sidebar.css";
 
 const Sidebar: FC = () => {
-  const [showMore, setShowMore] = useState<boolean>(false);
 
   return (
     <>
@@ -29,22 +25,6 @@ const Sidebar: FC = () => {
            <NavLink to="/perfil" className="sidebar-link"> Perfil
           </NavLink>
         </div>
-
-        <div>
-          <div
-            className="sidebar-link more-link"
-            onClick={() => setShowMore(!showMore)}
-          >
-            <img src={moreIcon} alt="Más" className="icon" /> Más
-          </div>
-          {showMore && (
-            <div className="more-items">
-              <NavLink to="/configuracion" className="sidebar-link sub-item">
-                <img src={settingsIcon} alt="Configuración" className="icon" /> Configuración
-              </NavLink>
-            </div>
-          )}
-        </div>
       </div>
 
       {/* Barra inferior para móviles */}
@@ -58,21 +38,6 @@ const Sidebar: FC = () => {
         <NavLink to="/CrearPost" className="bottom-link">
            <img src={crearPost} alt="Crear post" className="icon" />
         </NavLink>
-        <div>
-          <div
-            className="sidebar-link more-link"
-            onClick={() => setShowMore(!showMore)}
-          >
-            <img src={moreIcon} alt="Más" className="icon" />
-          </div>
-          {showMore && (
-            <div className="more-items">
-              <NavLink to="/configuracion" className="sidebar-link sub-item">
-                <img src={settingsIcon} alt="Configuración" className="icon" /> Configuración
-              </NavLink>
-            </div>
-          )}
-        </div>
       </div>
     </>
   );
