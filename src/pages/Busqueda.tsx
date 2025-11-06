@@ -46,10 +46,10 @@ export default function Busqueda() {
 
     const lower = search.toLowerCase();
     const results = posts.filter(
-      (p) =>
-        p.description.toLowerCase().includes(lower) ||
-        p.User?.nickName?.toLowerCase().includes(lower) ||
-        p.Tags?.some((t) => t.name.toLowerCase().includes(lower))
+      (post) =>
+        post.description.toLowerCase().includes(lower) ||
+        post.User?.nickName?.toLowerCase().includes(lower) ||
+        post.Tags?.some((t) => t.name.toLowerCase().includes(lower))
     );
     setFiltered(results);
   };
@@ -76,17 +76,17 @@ export default function Busqueda() {
         <p className="text-center">No se encontraron resultados.</p>
       ) : (
         <div className="row">
-          {filtered.map((p) => (
-            <div className="col-md-4 mb-3" key={p.id}>
+          {filtered.map((post) => (
+            <div className="col-md-4 mb-3" key={post.id}>
               <Card>
                 <Card.Body>
-                  <Card.Text>{p.description}</Card.Text>
+                  <Card.Text>{post.description}</Card.Text>
                   <small className="text-muted">
-                    {p.User?.nickName ? `@${p.User.nickName}` : "Sin autor"}
+                    {post.User?.nickName ? `@${post.User.nickName}` : "Sin autor"}
                   </small>
-                  {p.Tags && p.Tags.length > 0 && (
+                  {post.Tags && post.Tags.length > 0 && (
                     <div className="mt-2">
-                      {p.Tags.map((t, i) => (
+                      {post.Tags.map((t, i) => (
                         <span
                           key={i}
                           className="badge bg-secondary me-1"
@@ -97,7 +97,7 @@ export default function Busqueda() {
                     </div>
                   )}
                   <div className="mt-3">
-                    <Link to={`/post/${p.id}`} className="btn btn-outline-primary btn-sm">
+                    <Link to={`/posts/${post.id}`} className="btn btn-outline-primary btn-sm">
                       Ver más
                     </Link>
                   </div>
